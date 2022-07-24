@@ -1,39 +1,62 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+<center><h1>Circular Motion</h1></center>
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+<p align="center">
+  <img alt="easy dashboard", src="https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_banner.png">
+</p>
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+This package provides a way to create widgets in a circular position and able to scroll and make them rotate.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+|Any Shape|Any Position|Customizable|
+|:------------:|:------------:|:-------------:|
+| [![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_1.png)]() |	[![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_2.png)]()  | [![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_3.png)]() |
 
-## Features
+|	|		|		|
+|:------------:|:------------:|:-------------:|
+| [![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_vd_1.gif)]() |	[![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_vd_2.gif)]()  | [![](https://raw.githubusercontent.com/lewiseman/assets/master/circular_motion_vd_3.gif)]() |
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+<br>
+The shape of cirlcle will be dependent on the parent widget.
+<br>
+<br>
 
 ## Usage
+API
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+The `centerWidget` is the widget that will be in the center of the circular motion.
+```dart
+centerWidget: Text('Center'),
+```
+<br>
+You can create the circular motion in the following ways:
+
+### CircularMotion
+Example:
 
 ```dart
-const like = 'sample';
+CircularMotion(
+    centerWidget: Text('Center'),
+    children: [
+     Text('0'),
+     Text('1'),
+     Text('2'),
+     Text('3'),
+  ],
+)
 ```
 
-## Additional information
+### CircularMotion.builder()
+Example
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```dart
+CircularMotion.builder(
+    itemCount: 18,
+    centerWidget: Text('Center'),
+    builder: (context, index) {
+      return Text('$index');
+    }
+)
+```
+
+## Issues and Feedback
+Please feel free to report any issues you face<br>
+Also PR's and additional feedback is appreciated
