@@ -60,3 +60,5 @@ CircularMotion.builder(
 ## Issues and Feedback
 Please feel free to report any issues you face<br>
 Also PR's and additional feedback is appreciated
+
+> Enjoy
