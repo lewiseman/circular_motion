@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 /// Creates widgets positioned in a circular position
 /// that are able to rotate around the center of the widget.
-/// {@tool snippet}
 ///
 /// This example shows how to use the [CircularMotion.builder] widget.
 ///
@@ -19,7 +18,6 @@ import 'package:flutter/material.dart';
 ///    }
 ///)
 /// ```
-/// {@end-tool}
 ///
 /// This example shows how to use the [CircularMotion] widget.
 ///
@@ -34,8 +32,7 @@ import 'package:flutter/material.dart';
 ///  ],
 ///)
 /// ```
-/// {@end-tool}
-/// 
+///
 class CircularMotion extends StatefulWidget {
   final bool useBuilder;
 
