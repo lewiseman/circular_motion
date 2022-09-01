@@ -21,10 +21,19 @@ The shape of cirlcle will be dependent on the parent widget.
 
 ## Usage
 API
+>>centerWidget
 
 The `centerWidget` is the widget that will be in the center of the circular motion.
 ```dart
 centerWidget: Text('Center'),
+```
+<br>
+
+>>behavior
+
+The `behavior` is used to control how the gesture should behave during interaction .
+```dart
+behavior: HitTestBehavior.translucent,
 ```
 <br>
 You can create the circular motion in the following ways:
