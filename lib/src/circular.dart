@@ -45,27 +45,33 @@ class CircularMotion extends StatefulWidget {
   /// The widget that is positioned in the center.
   final Widget? centerWidget;
 
-  ///Number of items expected in the builder
+  /// Number of items expected in the builder
   final int? itemCount;
+
+  ///  Use this to control the behavior of the guestures.
+  /// eg : if you want guestures to respond also in areas with no child item add
+  /// ```dart
+  ///behavior: HitTestBehavior.translucent,
+  /// ```
+  final HitTestBehavior? behavior;
 
   /// Creates a scrollable, circular array of widgets that are created on demand.
   ///This constructor is appropriate for a large number of children.
-  const CircularMotion.builder({
-    Key? key,
-    required this.builder,
-    required this.itemCount,
-    this.centerWidget,
-  })  : useBuilder = true,
+  const CircularMotion.builder(
+      {Key? key,
+      required this.builder,
+      required this.itemCount,
+      this.centerWidget,
+      this.behavior})
+      : useBuilder = true,
         children = null,
         super(key: key);
 
   /// Creates a scrollable, circular array of widgets from an explicit [List].
   /// This constructor is appropriate for a small number of children
-  const CircularMotion({
-    Key? key,
-    required this.children,
-    this.centerWidget,
-  })  : useBuilder = false,
+  const CircularMotion(
+      {Key? key, required this.children, this.centerWidget, this.behavior})
+      : useBuilder = false,
         builder = null,
         itemCount = null,
         super(key: key);
@@ -116,6 +122,7 @@ class _CircularMotionState extends State<CircularMotion>
         var halfWidth = boxSize.width / 2;
         var halfHeight = boxSize.height / 2;
         return GestureDetector(
+          behavior: widget.behavior,
           onVerticalDragStart: (details) => _animationController.stop(),
           onVerticalDragUpdate: (details) {
             var pos = getAngle(halfWidth, halfHeight, details.localPosition);
