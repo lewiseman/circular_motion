@@ -57,24 +57,22 @@ class CircularMotion extends StatefulWidget {
 
   /// Creates a scrollable, circular array of widgets that are created on demand.
   ///This constructor is appropriate for a large number of children.
-  const CircularMotion.builder(
-      {Key? key,
-      required this.builder,
-      required this.itemCount,
-      this.centerWidget,
-      this.behavior})
-      : useBuilder = true,
-        children = null,
-        super(key: key);
+  const CircularMotion.builder({
+    super.key,
+    required this.builder,
+    required this.itemCount,
+    this.centerWidget,
+    this.behavior,
+  })  : useBuilder = true,
+        children = null;
 
   /// Creates a scrollable, circular array of widgets from an explicit [List].
   /// This constructor is appropriate for a small number of children
   const CircularMotion(
-      {Key? key, required this.children, this.centerWidget, this.behavior})
+      {super.key, required this.children, this.centerWidget, this.behavior})
       : useBuilder = false,
         builder = null,
-        itemCount = null,
-        super(key: key);
+        itemCount = null;
 
   @override
   State<CircularMotion> createState() => _CircularMotionState();
