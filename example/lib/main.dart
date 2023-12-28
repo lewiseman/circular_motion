@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             width: 390,
             height: 390,
             child: SafeArea(
-              // Here's is the magic.
+              // Here's the magic.
               child: CircularMotion(
                 behavior: HitTestBehavior.translucent,
                 centerWidget: Container(
