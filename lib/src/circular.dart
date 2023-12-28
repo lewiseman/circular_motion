@@ -81,6 +81,8 @@ class CircularMotion extends StatefulWidget {
 class _CircularMotionState extends State<CircularMotion>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+
+  //The current angle of the widget from the center in degrees and clockwise direction.
   double angle = 0;
   int prevPosInt = 1;
 
@@ -112,8 +114,11 @@ class _CircularMotionState extends State<CircularMotion>
 
   @override
   Widget build(BuildContext context) {
-    final double distanceAngle =
-        getDistanceAngle(widget.itemCount, widget.children?.length);
+    ///Angle spacing to be expected between each item.
+    final double distanceAngle = getDistanceAngle(
+      widget.itemCount,
+      widget.children?.length,
+    );
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final Size boxSize = constraints.biggest;
@@ -129,10 +134,6 @@ class _CircularMotionState extends State<CircularMotion>
               angle += ((details.primaryDelta ?? 0) * x);
             });
           },
-          onVerticalDragEnd: (details) {
-            prevPos = null;
-            runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
-          },
           onHorizontalDragStart: (details) => _animationController.stop(),
           onHorizontalDragUpdate: (details) {
             var pos = getAngle(halfWidth, halfHeight, details.localPosition);
@@ -145,25 +146,42 @@ class _CircularMotionState extends State<CircularMotion>
             prevPos = null;
             runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
           },
-          child: Stack(
-            children: List.generate(
-                  (widget.itemCount ?? widget.children?.length ?? 0),
-                  (index) => Align(
-                    alignment: Alignment(
-                      (cos((angle + (distanceAngle * index)).radians) * 1),
-                      (sin((angle + (distanceAngle * index)).radians) * 1),
+          onVerticalDragEnd: (details) {
+            prevPos = null;
+            final velocity = (details.primaryVelocity ?? 0) * prevPosInt;
+            runDeceleration(velocity);
+          },
+          child: Container(
+            color: Colors.yellow,
+            child: Stack(
+              /// The [Align] widget is used because its starting point (0,0) is the center of the available space, making it easier to position the widgets in a circular manner.
+              /// Additionally, the alignment property of [Align] allows us to specify the farthest x and y bounds as either 1 or -1, regardless of the available space's aspect ratio.
+              /// This makes it convenient for positioning the widgets circularly, regardless of the size or shape of the container.
+              /// Therefore utilizing  the Unit Circle to position the widgets. (https://en.wikipedia.org/wiki/Unit_circle#/media/File:Unit_circle.svg)
+              /// Also note the the x and y go in clockwise direction rather than the anticlockwise direction of the unit circle , but tey position the widgets in the same manner.
+              children: List.generate(
+                    (widget.itemCount ?? widget.children?.length ?? 0),
+                    (index) {
+                      /// Each angle at which the widget is from the center.
+                      /// We add -90 to the angle because the starting point of the unit circle is at 3 o'clock, but we want it to be at 12 o'clock.
+                      final itemAngle = (angle + -90) + (distanceAngle * index);
+                      final xPos = cos(itemAngle.radians);
+                      final yPos = sin(itemAngle.radians);
+                      return Align(
+                        alignment: Alignment(xPos, yPos),
+                        child: widget.useBuilder
+                            ? widget.builder!(context, index)
+                            : widget.children![index],
+                      );
+                    },
+                  ) +
+                  [
+                    Align(
+                      alignment: const Alignment(0, 0),
+                      child: widget.centerWidget,
                     ),
-                    child: widget.useBuilder
-                        ? widget.builder!(context, index)
-                        : widget.children![index],
-                  ),
-                ) +
-                [
-                  Align(
-                    alignment: const Alignment(0, 0),
-                    child: widget.centerWidget,
-                  ),
-                ],
+                  ],
+            ),
           ),
         );
       },
