@@ -164,37 +164,34 @@ class _CircularMotionState extends State<CircularMotion>
               runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
             }
           },
-          child: Container(
-            color: Colors.yellow,
-            child: Stack(
-              /// The [Align] widget is used because its starting point (0,0) is the center of the available space, making it easier to position the widgets in a circular manner.
-              /// Additionally, the alignment property of [Align] allows us to specify the farthest x and y bounds as either 1 or -1, regardless of the available space's aspect ratio.
-              /// This makes it convenient for positioning the widgets circularly, regardless of the size or shape of the container.
-              /// Therefore utilizing  the Unit Circle to position the widgets. (https://en.wikipedia.org/wiki/Unit_circle#/media/File:Unit_circle.svg)
-              /// Also note the the x and y go in clockwise direction rather than the anticlockwise direction of the unit circle , but tey position the widgets in the same manner.
-              children: List.generate(
-                    (widget.itemCount ?? widget.children?.length ?? 0),
-                    (index) {
-                      /// Each angle at which the widget is from the center.
-                      /// We add -90 to the angle because the starting point of the unit circle is at 3 o'clock, but we want it to be at 12 o'clock.
-                      final itemAngle = (angle + -90) + (distanceAngle * index);
-                      final xPos = cos(itemAngle.radians);
-                      final yPos = sin(itemAngle.radians);
-                      return Align(
-                        alignment: Alignment(xPos, yPos),
-                        child: widget.useBuilder
-                            ? widget.builder!(context, index)
-                            : widget.children![index],
-                      );
-                    },
-                  ) +
-                  [
-                    Align(
-                      alignment: const Alignment(0, 0),
-                      child: widget.centerWidget,
-                    ),
-                  ],
-            ),
+          child: Stack(
+            /// The [Align] widget is used because its starting point (0,0) is the center of the available space, making it easier to position the widgets in a circular manner.
+            /// Additionally, the alignment property of [Align] allows us to specify the farthest x and y bounds as either 1 or -1, regardless of the available space's aspect ratio.
+            /// This makes it convenient for positioning the widgets circularly, regardless of the size or shape of the container.
+            /// Therefore utilizing  the Unit Circle to position the widgets. (https://en.wikipedia.org/wiki/Unit_circle#/media/File:Unit_circle.svg)
+            /// Also note the the x and y go in clockwise direction rather than the anticlockwise direction of the unit circle , but tey position the widgets in the same manner.
+            children: List.generate(
+                  (widget.itemCount ?? widget.children?.length ?? 0),
+                  (index) {
+                    /// Each angle at which the widget is from the center.
+                    /// We add -90 to the angle because the starting point of the unit circle is at 3 o'clock, but we want it to be at 12 o'clock.
+                    final itemAngle = (angle + -90) + (distanceAngle * index);
+                    final xPos = cos(itemAngle.radians);
+                    final yPos = sin(itemAngle.radians);
+                    return Align(
+                      alignment: Alignment(xPos, yPos),
+                      child: widget.useBuilder
+                          ? widget.builder!(context, index)
+                          : widget.children![index],
+                    );
+                  },
+                ) +
+                [
+                  Align(
+                    alignment: const Alignment(0, 0),
+                    child: widget.centerWidget,
+                  ),
+                ],
           ),
         );
       },

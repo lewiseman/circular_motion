@@ -30,17 +30,17 @@ class MyApp extends StatelessWidget {
               // Here's the magic.
               child: CircularMotion(
                 behavior: HitTestBehavior.translucent,
-                // centerWidget: Container(
-                //   width: 100,
-                //   height: 100,
-                //   decoration: BoxDecoration(
-                //     color: Colors.red,
-                //     borderRadius: BorderRadius.circular(30),
-                //   ),
-                //   child: const Center(
-                //     child: Text('center'),
-                //   ),
-                // ),
+                centerWidget: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: const Center(
+                    child: Text('center'),
+                  ),
+                ),
                 children: List.generate(
                   6,
                   (index) {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Text('$index'),
+                        child: Text('${index + 1}'),
                       ),
                     );
                   },
