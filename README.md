@@ -21,7 +21,7 @@ The shape of cirlcle will be dependent on the parent widget.
 
 ## Usage
 API
->>centerWidget
+>centerWidget
 
 The `centerWidget` is the widget that will be in the center of the circular motion.
 ```dart
@@ -29,11 +29,19 @@ centerWidget: Text('Center'),
 ```
 <br>
 
->>behavior
+>behavior
 
 The `behavior` is used to control how the gesture should behave during interaction .
 ```dart
 behavior: HitTestBehavior.translucent,
+```
+<br>
+
+>speedRunEnabled
+
+The `speedRunEnabled` is used to determine if after a scroll gesture is completed , the items should rotate in a velocity similar to the gesture . If false the items will not rotate after the gesture is completed . It defaults to true .
+```dart
+speedRunEnabled: true,
 ```
 <br>
 You can create the circular motion in the following ways:

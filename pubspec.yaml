@@ -1,6 +1,6 @@
 name: circular_motion
 description: A package to create a circular positioned widgets and can be scrolled to rotate them in the desired circular way.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/lewiseman/circular_motion
 issue_tracker: https://github.com/lewiseman/circular_motion/issues
 

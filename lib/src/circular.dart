@@ -55,22 +55,29 @@ class CircularMotion extends StatefulWidget {
   /// ```
   final HitTestBehavior? behavior;
 
+  final bool speedRunEnabled;
+
   /// Creates a scrollable, circular array of widgets that are created on demand.
   ///This constructor is appropriate for a large number of children.
-  const CircularMotion.builder({
-    super.key,
-    required this.builder,
-    required this.itemCount,
-    this.centerWidget,
-    this.behavior,
-  })  : useBuilder = true,
+  const CircularMotion.builder(
+      {super.key,
+      required this.builder,
+      required this.itemCount,
+      this.centerWidget,
+      this.behavior,
+      this.speedRunEnabled = true})
+      : useBuilder = true,
         children = null;
 
   /// Creates a scrollable, circular array of widgets from an explicit [List].
   /// This constructor is appropriate for a small number of children
-  const CircularMotion(
-      {super.key, required this.children, this.centerWidget, this.behavior})
-      : useBuilder = false,
+  const CircularMotion({
+    super.key,
+    required this.children,
+    this.centerWidget,
+    this.behavior,
+    this.speedRunEnabled = true,
+  })  : useBuilder = false,
         builder = null,
         itemCount = null;
 
@@ -84,6 +91,9 @@ class _CircularMotionState extends State<CircularMotion>
 
   //The current angle of the widget from the center in degrees and clockwise direction.
   double angle = 0;
+
+  /// This acts a direction . It is either 1 or -1. Its updated by scroll gestures , then used to update the angle.
+  /// Also used by the runDeceleration(speedRun) feature , since that happens after the scroll gesture is done.
   int prevPosInt = 1;
 
   void runDeceleration(double velocity) {
@@ -144,12 +154,15 @@ class _CircularMotionState extends State<CircularMotion>
           },
           onHorizontalDragEnd: (details) {
             prevPos = null;
-            runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
+            if (widget.speedRunEnabled) {
+              runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
+            }
           },
           onVerticalDragEnd: (details) {
             prevPos = null;
-            final velocity = (details.primaryVelocity ?? 0) * prevPosInt;
-            runDeceleration(velocity);
+            if (widget.speedRunEnabled) {
+              runDeceleration((details.primaryVelocity ?? 0) * prevPosInt);
+            }
           },
           child: Container(
             color: Colors.yellow,
